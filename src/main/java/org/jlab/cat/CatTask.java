@@ -1,7 +1,7 @@
 package org.jlab.cat;
 
 import org.gradle.api.DefaultTask;
-import org.gradle.api.file.FileCollection;
+import org.gradle.api.file.ConfigurableFileTree;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.OutputFile;
@@ -13,7 +13,7 @@ import java.util.Iterator;
 public abstract class CatTask extends DefaultTask {
 
     @InputFiles
-    public abstract FileCollection getInput();
+    public abstract ConfigurableFileTree getInput();
 
     @OutputFile
     public abstract RegularFileProperty getOutput();
