@@ -1,2 +1,2 @@
 # gradle-cat
-Gradle file concatenation plugin
+A [Gradle](https://gradle.org/) file concatenation plugin.
