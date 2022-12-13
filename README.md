@@ -14,7 +14,7 @@ plugins {
 Create a new task of type `org.jlab.cat.CatTask` and set the input files and output file.  For example (Groovy syntax shown):
 ```
 task catJsFiles(type: org.jlab.cat.CatTask) {
-    inputs.from("src/main/webapp/resources/js").include('**/*.js')
+    input.from("src/main/webapp/resources/js").include('**/*.js')
     output = file("${buildDir}/combined-js/combined.js")
 }
 ```
