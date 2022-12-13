@@ -12,7 +12,7 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        greeting {
+        cat {
             id = 'org.jlab.plugin.cat'
             implementationClass = 'org.jlab.plugin.CatPlugin'
         }
