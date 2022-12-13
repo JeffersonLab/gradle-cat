@@ -2,8 +2,6 @@ package org.jlab.cat;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.file.ConfigurableFileTree;
-import org.gradle.api.file.RegularFileProperty;
 
 import java.io.File;
 
@@ -12,14 +10,10 @@ public class CatPlugin implements Plugin<Project> {
     public void apply(Project project) {
         CatTask task = project.getTasks().create("cat", CatTask.class);
 
-        File projectDir = project.getProjectDir();
-        File srcDir = new File(projectDir, "src");
-
-        File defaultOutput = new File(projectDir, "build/cat-output");
-        ConfigurableFileTree defaultInput = project.fileTree(srcDir);
-        defaultInput.include("**/*.txt");
+        File buildDir = project.getBuildDir();
+        File defaultOutput = new File(buildDir, "cat-output");
 
         task.getOutput().fileValue(defaultOutput);
-        task.getInput().from(defaultInput);
+        task.getInput().from("src/test/resources").include("**/*.txt");
     }
 }
