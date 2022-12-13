@@ -1,7 +1,9 @@
 plugins {
-    id 'java'
-    id 'java-gradle-plugin'
+    id("com.gradle.plugin-publish") version "1.1.0"
 }
+
+group = "org.jlab"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -11,10 +13,18 @@ dependencies {
     testImplementation 'junit:junit:4.13'
 }
 
+pluginBundle {
+    website = "https://github.com/jeffersonlab/gradle-cat"
+    vcsUrl = "https://github.com/jeffersonlab/gradle-cat"
+    tags = ["cat", "concatenate", "merge", "combine"]
+}
+
 gradlePlugin {
     plugins {
-        cat {
+       create("cat") {
             id = 'org.jlab.cat'
+            displayName = "Gradle file concatenation plugin"
+            description = "This plugin is useful to combine / merge files such as web application JavaScript or CSS resources."
             implementationClass = 'org.jlab.cat.CatPlugin'
         }
     }

@@ -10,14 +10,32 @@ import org.gradle.api.tasks.TaskAction;
 import java.io.*;
 import java.util.Iterator;
 
+/**
+ * Concatenation Task
+ */
 public abstract class CatTask extends DefaultTask {
 
+    /**
+     * The input files.
+     *
+     * @return The input files
+     */
     @InputFiles
     public abstract ConfigurableFileTree getInput();
 
+    /**
+     * The output file.
+     *
+     * @return The output file
+     */
     @OutputFile
     public abstract RegularFileProperty getOutput();
 
+    /**
+     * The concatenation task action.
+     *
+     * @throws IOException If unable to concatenate files
+     */
     @TaskAction
     public void run() throws IOException {
         File outFile = getOutput().getAsFile().get();

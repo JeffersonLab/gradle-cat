@@ -5,6 +5,9 @@ import org.gradle.api.Project;
 
 import java.io.File;
 
+/**
+ * Concatenation Plugin
+ */
 public class CatPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
