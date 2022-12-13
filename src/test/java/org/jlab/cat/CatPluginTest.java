@@ -15,30 +15,29 @@ import static org.junit.Assert.assertTrue;
 
 public class CatPluginTest {
 
-    private Task task;
+    private CatTask task;
     private Project project;
 
     @Before
     public void setup() {
         File projectRoot = new File(".").getAbsoluteFile();
-        project = ProjectBuilder.builder().withProjectDir(projectRoot).build();
+        project = ProjectBuilder.builder().withProjectDir(projectRoot).withGradleUserHomeDir(new File(System.getProperty("java.io.tmpdir"))).build();
         project.getPluginManager().apply("org.jlab.cat");
-        task = project.getTasks().getByName("cat");
-    }
-
-    @Test
-    public void checkTaskType() {
-        assertTrue(task instanceof CatTask);
+        task = (CatTask) project.getTasks().getByName("cat");
     }
 
     @Test
     public void checkExecution() throws IOException {
-        ((CatTask) task).run();
+        File buildDir = project.getBuildDir();
+        File defaultOutput = new File(buildDir, "testing-output");
 
-        File output = new File (project.getBuildDir(), "cat-output");
+        task.getOutput().fileValue(defaultOutput);
+        task.getInput().from("src/test/resources").include("**/*.txt");
+
+        task.run();
 
         String expected = "ABC" + System.lineSeparator() + "DEF" + System.lineSeparator();
 
-        assertEquals(expected, Files.readString(output.toPath()));
+        assertEquals(expected, Files.readString(defaultOutput.toPath()));
     }
 }
