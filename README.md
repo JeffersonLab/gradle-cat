@@ -15,6 +15,6 @@ Create a new task of type `org.jlab.cat.CatTask` and set the input files and out
 ```
 task catJsFiles(type: org.jlab.cat.CatTask) {
     input.from("src/main/webapp/resources/js").include('**/*.js')
-    output = file("${buildDir}/combined-js/combined.js")
+    output = file("${buildDir}/combined.js")
 }
 ```
