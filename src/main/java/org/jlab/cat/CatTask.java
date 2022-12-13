@@ -1,4 +1,4 @@
-package org.jlab;
+package org.jlab.cat;
 
 import org.gradle.api.DefaultTask;
 import org.gradle.api.file.FileCollection;
