@@ -39,3 +39,46 @@ test {
         showStandardStreams = true
     }
 }
+
+signing {
+    sign publishing.publications
+}
+
+publishing {
+    repositories {
+        maven {
+            name "OSSRH"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = project.findProperty("ossrh.user") ?: System.getenv("OSSRH_USER")
+                password = project.findProperty("ossrh.token") ?: System.getenv("OSSRH_TOKEN")
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+            pom {
+                name = project.name
+                description = project.description
+                url = "https://github.com/JeffersonLab/gradle-cat"
+                licenses {
+                    license {
+                        name = "The MIT License"
+                        url = "https://github.com/JeffersonLab/gradle-cat/blob/master/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "slominskir"
+                        name = "Ryan Slominski"
+                        email = "ryans@jlab.org"
+                    }
+                }
+                scm {
+                    url = "https://github.com/JeffersonLab/gradle-cat.git"
+                }
+            }
+        }
+    }
+}
