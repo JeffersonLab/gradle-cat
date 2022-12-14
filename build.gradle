@@ -1,6 +1,8 @@
 plugins {
     id "signing"
-    id "com.gradle.plugin-publish" version "1.1.0"
+    id "java-gradle-plugin"
+    id "maven-publish"
+    //id "com.gradle.plugin-publish" version "1.1.0"
 }
 
 description 'Gradle file concatenation plugin'
@@ -15,11 +17,13 @@ dependencies {
     testImplementation "junit:junit:4.13"
 }
 
+/*
 pluginBundle {
     website = "https://github.com/jeffersonlab/gradle-cat"
     vcsUrl = "https://github.com/jeffersonlab/gradle-cat"
     tags = ["cat", "concatenate", "merge", "combine"]
 }
+*/
 
 gradlePlugin {
     plugins {
@@ -55,28 +59,29 @@ publishing {
             }
         }
     }
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-            pom {
-                name = project.name
-                description = project.description
-                url = "https://github.com/JeffersonLab/gradle-cat"
-                licenses {
-                    license {
-                        name = "The MIT License"
-                        url = "https://github.com/JeffersonLab/gradle-cat/blob/master/LICENSE"
+    afterEvaluate {
+        publications {
+            withType(MavenPublication) {
+                pom {
+                    name = project.name
+                    description = project.description
+                    url = "https://github.com/JeffersonLab/gradle-cat"
+                    licenses {
+                        license {
+                            name = "The MIT License"
+                            url = "https://github.com/JeffersonLab/gradle-cat/blob/master/LICENSE"
+                        }
                     }
-                }
-                developers {
-                    developer {
-                        id = "slominskir"
-                        name = "Ryan Slominski"
-                        email = "ryans@jlab.org"
+                    developers {
+                        developer {
+                            id = "slominskir"
+                            name = "Ryan Slominski"
+                            email = "ryans@jlab.org"
+                        }
                     }
-                }
-                scm {
-                    url = "https://github.com/JeffersonLab/gradle-cat.git"
+                    scm {
+                        url = "https://github.com/JeffersonLab/gradle-cat.git"
+                    }
                 }
             }
         }
