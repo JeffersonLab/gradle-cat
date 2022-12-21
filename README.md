@@ -1,4 +1,4 @@
-# gradle-cat
+# gradle-cat [![CI](https://github.com/JeffersonLab/gradle-cat/actions/workflows/ci.yml/badge.svg)](https://github.com/JeffersonLab/gradle-cat/actions/workflows/ci.yml) [![Maven Central](https://badgen.net/maven/v/maven-central/org.jlab/cat)](https://repo1.maven.org/maven2/org/jlab/cat/)
 A [Gradle](https://gradle.org/) file concatenation plugin.  This plugin is useful to combine / merge files such as web application JavaScript or CSS resources.
 
 ## Install
