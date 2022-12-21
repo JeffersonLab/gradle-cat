@@ -34,13 +34,17 @@ public class CatPluginTest {
         Directory resDir = projDir.dir("src/test/resources");
         File output = new File(buildDir, "testing-output");
 
+        CatInput config = project.getObjects().newInstance(CatInput.class);
+
         task.getOutput().fileValue(output);
 
         RegularFile file1 = resDir.file("test1.txt");
         RegularFile file2 = resDir.file("test2.txt");
 
-        task.getInput().add(file1);
-        task.getInput().add(file2);
+        config.getList().add(file1);
+        config.getList().add(file2);
+
+        task.getInput().set(config);
 
         task.run();
 
@@ -59,6 +63,8 @@ public class CatPluginTest {
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-reverse-output");
 
+        CatInput config = project.getObjects().newInstance(CatInput.class);
+
         task.getOutput().fileValue(output);
 
         ConfigurableFileTree tree = project.fileTree("src/test/resources");
@@ -68,7 +74,9 @@ public class CatPluginTest {
         Collections.sort(fileList);
         Collections.reverse(fileList);
 
-        fileList.forEach(f -> task.getInput().add(projDir.file(f.getPath())));
+        fileList.forEach(f -> config.getList().add(projDir.file(f.getPath())));
+
+        task.getInput().set(config);
 
         task.run();
 
@@ -86,9 +94,13 @@ public class CatPluginTest {
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-from-output");
 
+        CatInput config = project.getObjects().newInstance(CatInput.class);
+
         task.getOutput().fileValue(output);
 
-        task.from("src/test/resources").include("test1.txt");
+        config.from("src/test/resources", project).include("test1.txt");
+
+        task.getInput().set(config);
 
         task.run();
 
@@ -104,9 +116,13 @@ public class CatPluginTest {
         File buildDir = project.getBuildDir();
         File output = new File(buildDir, "testing-unordered-output");
 
+        CatInput config = project.getObjects().newInstance(CatInput.class);
+
         task.getOutput().fileValue(output);
 
-        task.from("src/test/resources").include("**/*.txt");
+        config.from("src/test/resources", project).include("**/*.txt");
+
+        task.getInput().set(config);
 
         task.run();
 
