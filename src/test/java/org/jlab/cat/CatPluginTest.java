@@ -82,6 +82,26 @@ public class CatPluginTest {
     }
 
     @Test
+    public void fromTest() throws IOException {
+        File buildDir = project.getBuildDir();
+        ProjectLayout layout = project.getLayout();
+        Directory projDir = layout.getProjectDirectory();
+        File output = new File(buildDir, "testing-from-output");
+
+        orderedTask.getOutput().fileValue(output);
+
+        orderedTask.from("src/test/resources").include("test1.txt");
+
+        orderedTask.run();
+
+        String expected = "ABC" + System.lineSeparator();
+
+        String actual = Files.readString(output.toPath());
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void unorderedTest() throws IOException {
         File buildDir = project.getBuildDir();
         File output = new File(buildDir, "testing-unordered-output");
