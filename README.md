@@ -3,7 +3,7 @@ A [Gradle](https://gradle.org/) file concatenation plugin.  This plugin is usefu
 
 ## Install
 ### settings.gradle
-The plugin is available in Maven Central (but not the Gradle Plugin Portal yet!).  Since Gradle only checks the Gradle Plugin Portal by default, you'll need to update your `settings.gradle` to point to Maven Central:
+The plugin is available in Maven Central (but not the Gradle Plugin Portal).  Since Gradle only checks the Gradle Plugin Portal by default, you'll need to update your `settings.gradle` to point to Maven Central:
 ```
 pluginManagement {
     repositories {
