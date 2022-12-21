@@ -7,12 +7,14 @@ import java.io.*;
 import java.util.Iterator;
 
 /**
- * Concatenation Task
+ * Concatenation Task that concatenates files in random order.  In situations where
+ * order doesn't matter the ConfigurableFileTree input property is much easier to work with
+ * compared to the ordered ListProperty alternative.
  */
 public abstract class CatTask extends AbstractCatTask {
 
     /**
-     * The unordered input files, only used if getUnordered() returns true.
+     * The unordered input files.
      *
      * @return The ConfigurableFileTree
      */

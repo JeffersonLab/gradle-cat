@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.Iterator;
 
 /**
- * Concatenation Task
+ * Concatenation Task that concatenates files in the order provided.
  */
 public abstract class OrderedCatTask extends AbstractCatTask {
 
