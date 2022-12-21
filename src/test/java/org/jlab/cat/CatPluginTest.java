@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class CatPluginTest {
 
@@ -34,8 +34,12 @@ public class CatPluginTest {
 
         task.run();
 
-        String expected = "ABC" + System.lineSeparator() + "DEF" + System.lineSeparator();
+        String expected1 = "ABC" + System.lineSeparator() + "DEF" + System.lineSeparator();
+        String expected2 = "DEF" + System.lineSeparator() + "ABC" + System.lineSeparator();
 
-        assertEquals(expected, Files.readString(defaultOutput.toPath()));
+
+        String actual = Files.readString(defaultOutput.toPath());
+
+        assertTrue(expected1.equals(actual) || expected2.equals(actual));
     }
 }
