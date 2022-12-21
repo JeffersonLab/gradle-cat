@@ -16,7 +16,6 @@ import static org.junit.Assert.*;
 public class CatPluginTest {
 
     private CatTask task;
-    private OrderedCatTask orderedTask;
     private Project project;
 
     @Before
@@ -25,7 +24,6 @@ public class CatPluginTest {
         project = ProjectBuilder.builder().withProjectDir(projectRoot).withGradleUserHomeDir(new File(System.getProperty("java.io.tmpdir"))).build();
         project.getPluginManager().apply("org.jlab.cat");
         task = (CatTask) project.getTasks().getByName("cat");
-        orderedTask = (OrderedCatTask) project.getTasks().getByName("ordered-cat");
     }
 
     @Test
@@ -36,15 +34,15 @@ public class CatPluginTest {
         Directory resDir = projDir.dir("src/test/resources");
         File output = new File(buildDir, "testing-output");
 
-        orderedTask.getOutput().fileValue(output);
+        task.getOutput().fileValue(output);
 
         RegularFile file1 = resDir.file("test1.txt");
         RegularFile file2 = resDir.file("test2.txt");
 
-        orderedTask.getInput().add(file1);
-        orderedTask.getInput().add(file2);
+        task.getInput().add(file1);
+        task.getInput().add(file2);
 
-        orderedTask.run();
+        task.run();
 
         String expected = "ABC" + System.lineSeparator() + "DEF" + System.lineSeparator();
 
@@ -61,7 +59,7 @@ public class CatPluginTest {
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-reverse-output");
 
-        orderedTask.getOutput().fileValue(output);
+        task.getOutput().fileValue(output);
 
         ConfigurableFileTree tree = project.fileTree("src/test/resources");
         tree.include("**/*.txt");
@@ -70,9 +68,9 @@ public class CatPluginTest {
         Collections.sort(fileList);
         Collections.reverse(fileList);
 
-        fileList.forEach(f -> orderedTask.getInput().add(projDir.file(f.getPath())));
+        fileList.forEach(f -> task.getInput().add(projDir.file(f.getPath())));
 
-        orderedTask.run();
+        task.run();
 
         String expected = "DEF" + System.lineSeparator() + "ABC" + System.lineSeparator();
 
@@ -88,11 +86,11 @@ public class CatPluginTest {
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-from-output");
 
-        orderedTask.getOutput().fileValue(output);
+        task.getOutput().fileValue(output);
 
-        orderedTask.from("src/test/resources").include("test1.txt");
+        task.from("src/test/resources").include("test1.txt");
 
-        orderedTask.run();
+        task.run();
 
         String expected = "ABC" + System.lineSeparator();
 
@@ -108,7 +106,7 @@ public class CatPluginTest {
 
         task.getOutput().fileValue(output);
 
-        task.getInput().from("src/test/resources").include("**/*.txt");
+        task.from("src/test/resources").include("**/*.txt");
 
         task.run();
 

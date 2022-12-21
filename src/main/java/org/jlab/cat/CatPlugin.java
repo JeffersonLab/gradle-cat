@@ -10,6 +10,5 @@ public class CatPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         CatTask task = project.getTasks().create("cat", CatTask.class);
-        OrderedCatTask orderedTask = project.getTasks().create("ordered-cat", OrderedCatTask.class);
     }
 }
