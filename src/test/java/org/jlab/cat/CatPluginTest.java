@@ -1,6 +1,9 @@
 package org.jlab.cat;
 
 import org.gradle.api.Project;
+import org.gradle.api.file.Directory;
+import org.gradle.api.file.ProjectLayout;
+import org.gradle.api.file.RegularFile;
 import org.gradle.testfixtures.ProjectBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,19 +30,25 @@ public class CatPluginTest {
     @Test
     public void checkExecution() throws IOException {
         File buildDir = project.getBuildDir();
+        ProjectLayout layout = project.getLayout();
+        Directory projDir = layout.getProjectDirectory();
+        Directory resDir = projDir.dir("src/test/resources");
         File defaultOutput = new File(buildDir, "testing-output");
 
         task.getOutput().fileValue(defaultOutput);
-        task.getInput().from("src/test/resources").include("**/*.txt");
+
+        RegularFile file1 = resDir.file("test1.txt");
+        RegularFile file2 = resDir.file("test2.txt");
+
+        task.getInput().add(file1);
+        task.getInput().add(file2);
 
         task.run();
 
-        String expected1 = "ABC" + System.lineSeparator() + "DEF" + System.lineSeparator();
-        String expected2 = "DEF" + System.lineSeparator() + "ABC" + System.lineSeparator();
-
+        String expected = "ABC" + System.lineSeparator() + "DEF" + System.lineSeparator();
 
         String actual = Files.readString(defaultOutput.toPath());
 
-        assertTrue(expected1.equals(actual) || expected2.equals(actual));
+        assertEquals(expected, actual);
     }
 }
