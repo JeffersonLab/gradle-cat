@@ -29,18 +29,11 @@ public class CatPluginTest {
     @Test
     public void orderedTest() throws IOException {
         File buildDir = project.getBuildDir();
-        ProjectLayout layout = project.getLayout();
-        Directory projDir = layout.getProjectDirectory();
-        Directory resDir = projDir.dir("src/test/resources");
         File output = new File(buildDir, "testing-output");
 
         task.getOutput().fileValue(output);
 
-        RegularFile file1 = resDir.file("test1.txt");
-        RegularFile file2 = resDir.file("test2.txt");
-
-        task.getInput().add(file1);
-        task.getInput().add(file2);
+        task.from("src/test/resources/test1.txt", "src/test/resources/test2.txt");
 
         task.run();
 
@@ -59,6 +52,8 @@ public class CatPluginTest {
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-reverse-output");
 
+        CatExtension config = project.getObjects().newInstance(CatExtension.class);
+
         task.getOutput().fileValue(output);
 
         ConfigurableFileTree tree = project.fileTree("src/test/resources");
@@ -68,7 +63,9 @@ public class CatPluginTest {
         Collections.sort(fileList);
         Collections.reverse(fileList);
 
-        fileList.forEach(f -> task.getInput().add(projDir.file(f.getPath())));
+        fileList.forEach(f -> config.getInput().add(projDir.file(f.getPath())));
+
+        task.getInput().set(config.getInput());
 
         task.run();
 

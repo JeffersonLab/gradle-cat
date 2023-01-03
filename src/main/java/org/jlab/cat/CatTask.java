@@ -9,6 +9,7 @@ import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -18,18 +19,62 @@ import java.util.Set;
  */
 public abstract class CatTask extends DefaultTask {
 
-    /**
-     * The ordered input files.
-     *
-     * @return The ListProperty
-     */
+
     @InputFiles
     abstract ListProperty<RegularFile> getInput();
 
+    @OutputFile
+    abstract RegularFileProperty getOutput();
+
     /**
-     * Lazily sets the value of the input to an unordered ConfigurableFileTree.
+     * The concatenation task action.
      *
-     * @param path Path in the project
+     * @throws IOException If unable to concatenate files
+     */
+    @TaskAction
+    public void run() throws IOException {
+        File outFile = getOutput().getAsFile().get();
+
+        try(PrintWriter writer = new PrintWriter(outFile)) {
+            for (Iterator<RegularFile> it = getInput().get().iterator(); it.hasNext(); ) {
+                File f = it.next().getAsFile();
+                try(BufferedReader br = new BufferedReader(new FileReader(f))) {
+
+                    String line = br.readLine();
+                    while (line != null) {
+                        writer.println(line);
+                        line = br.readLine();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Set the provided list of input files as paths relative to the project root.
+     *
+     * @param paths The list of paths
+     */
+    public void from(String... paths) {
+        Project project = getProject();
+        ProjectLayout layout = project.getLayout();
+        Directory dir = layout.getProjectDirectory();
+
+        ArrayList<RegularFile> list = new ArrayList<>();
+
+        for(String path: paths) {
+            RegularFile f = dir.file(path);
+
+            list.add(f);
+        }
+
+        getInput().set(list);
+    }
+
+    /**
+     * Lazily sets the value of the input to an unordered ConfigurableFileTree rooted at the given path.
+     *
+     * @param path Root path in the project
      * @return A ConfigurableFileTree that can be chained further
      */
     public ConfigurableFileTree from(String path) {
@@ -61,37 +106,5 @@ public abstract class CatTask extends DefaultTask {
         getInput().set(regularFileProvider);
 
         return tree;
-    }
-
-    /**
-     * The output file.
-     *
-     * @return The output file
-     */
-    @OutputFile
-    public abstract RegularFileProperty getOutput();
-
-    /**
-     * The concatenation task action.
-     *
-     * @throws IOException If unable to concatenate files
-     */
-    @TaskAction
-    public void run() throws IOException {
-        File outFile = getOutput().getAsFile().get();
-
-        try(PrintWriter writer = new PrintWriter(outFile)) {
-            for (Iterator<RegularFile> it = getInput().get().iterator(); it.hasNext(); ) {
-                File f = it.next().getAsFile();
-                try(BufferedReader br = new BufferedReader(new FileReader(f))) {
-
-                    String line = br.readLine();
-                    while (line != null) {
-                        writer.println(line);
-                        line = br.readLine();
-                    }
-                }
-            }
-        }
     }
 }
