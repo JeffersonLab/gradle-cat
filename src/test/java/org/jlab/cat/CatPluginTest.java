@@ -29,22 +29,11 @@ public class CatPluginTest {
     @Test
     public void orderedTest() throws IOException {
         File buildDir = project.getBuildDir();
-        ProjectLayout layout = project.getLayout();
-        Directory projDir = layout.getProjectDirectory();
-        Directory resDir = projDir.dir("src/test/resources");
         File output = new File(buildDir, "testing-output");
-
-        CatInput config = project.getObjects().newInstance(CatInput.class);
 
         task.getOutput().fileValue(output);
 
-        RegularFile file1 = resDir.file("test1.txt");
-        RegularFile file2 = resDir.file("test2.txt");
-
-        config.getList().add(file1);
-        config.getList().add(file2);
-
-        task.getInput().set(config);
+        task.from("src/test/resources/test1.txt", "src/test/resources/test2.txt");
 
         task.run();
 
@@ -63,7 +52,7 @@ public class CatPluginTest {
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-reverse-output");
 
-        CatInput config = project.getObjects().newInstance(CatInput.class);
+        CatExtension config = project.getObjects().newInstance(CatExtension.class);
 
         task.getOutput().fileValue(output);
 
@@ -74,9 +63,9 @@ public class CatPluginTest {
         Collections.sort(fileList);
         Collections.reverse(fileList);
 
-        fileList.forEach(f -> config.getList().add(projDir.file(f.getPath())));
+        fileList.forEach(f -> config.getInput().add(projDir.file(f.getPath())));
 
-        task.getInput().set(config);
+        task.getInput().set(config.getInput());
 
         task.run();
 
@@ -94,13 +83,9 @@ public class CatPluginTest {
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-from-output");
 
-        CatInput config = project.getObjects().newInstance(CatInput.class);
-
         task.getOutput().fileValue(output);
 
-        config.from("src/test/resources", project).include("test1.txt");
-
-        task.getInput().set(config);
+        task.from("src/test/resources").include("test1.txt");
 
         task.run();
 
@@ -116,13 +101,9 @@ public class CatPluginTest {
         File buildDir = project.getBuildDir();
         File output = new File(buildDir, "testing-unordered-output");
 
-        CatInput config = project.getObjects().newInstance(CatInput.class);
-
         task.getOutput().fileValue(output);
 
-        config.from("src/test/resources", project).include("**/*.txt");
-
-        task.getInput().set(config);
+        task.from("src/test/resources").include("**/*.txt");
 
         task.run();
 
