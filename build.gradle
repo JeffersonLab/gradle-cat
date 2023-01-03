@@ -2,7 +2,7 @@ plugins {
     id "signing"
     id "java-gradle-plugin"
     id "maven-publish"
-    //id "com.gradle.plugin-publish" version "1.1.0"
+    id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
 }
 
 description 'Gradle file concatenation plugin'
@@ -17,13 +17,10 @@ dependencies {
     testImplementation "junit:junit:4.13"
 }
 
-/*
-pluginBundle {
-    website = "https://github.com/jeffersonlab/gradle-cat"
-    vcsUrl = "https://github.com/jeffersonlab/gradle-cat"
-    tags = ["cat", "concatenate", "merge", "combine"]
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
-*/
 
 gradlePlugin {
     plugins {
@@ -84,6 +81,15 @@ publishing {
                     }
                 }
             }
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
         }
     }
 }
