@@ -24,7 +24,23 @@ plugins {
 Create a new task of type `org.jlab.cat.CatTask` and set the input files and output file.  For example (Groovy syntax shown):
 ```
 task catJsFiles(type: org.jlab.cat.CatTask) {
-    input.from("src/main/webapp/resources/js").include('**/*.js')
+    from("src/main/webapp/resources/js").include('**/*.js')
     output = file("${buildDir}/combined.js")
 }
 ```
+Alternatively you can enumerate files explicitly to maintain an ordering:
+```
+task catJsFiles(type: org.jlab.cat.CatTask) {
+    from("src/main/webapp/resources/js/widget1/file1.js", src/main/resources/js/widget2/file2.js)
+    output = file("${buildDir}/combined.js")
+}
+```
+Finally, you can also leverage the `cat` extension if you only need one instance of the task:
+```
+cat {
+    input = [layout.getProjectDirectory().file("src/main/webapp/resources/js/widget1/file1.js"), layout.getProjectDirectory().file("src/main/resources/js/widget2/file2.js")]
+    output = file("${buildDir}/combined.js")
+}
+```
+**Note**: Extension doesn't wrap `RegularFile` API so, it's clumsy.
+
