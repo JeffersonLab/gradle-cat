@@ -44,3 +44,11 @@ cat {
 ```
 **Note**: Extension doesn't wrap `RegularFile` API so, it's clumsy.
 
+## Release
+1. Bump the version number in build.gradle and commit and push to GitHub (using [Semantic Versioning](https://semver.org/)).   
+1. Create a new release on the GitHub [Releases](https://github.com/JeffersonLab/gradle-cat/releases) page corresponding to same version in build.gradle (Enumerate changes and link issues)
+1. Publish new artifact on maven central with:
+```
+gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
+```
+**Note**: There is a [GitHub action](https://github.com/JeffersonLab/gradle-cat/actions/workflows/maven-pubilsh.yml) for this to happen automatically.  To run locally you'll need to configure credentials.  See: [Gradle Publish Notes](https://gist.github.com/slominskir/5fcd5cf84182bf1542c07cbca953904a)
