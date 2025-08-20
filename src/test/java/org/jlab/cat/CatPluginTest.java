@@ -28,7 +28,7 @@ public class CatPluginTest {
 
     @Test
     public void orderedTest() throws IOException {
-        File buildDir = project.getBuildDir();
+        File buildDir = project.getLayout().getBuildDirectory().get().getAsFile();
         File output = new File(buildDir, "testing-output");
 
         task.getOutput().fileValue(output);
@@ -47,7 +47,7 @@ public class CatPluginTest {
 
     @Test
     public void reverseOrderWithFileTreeTest() throws IOException {
-        File buildDir = project.getBuildDir();
+        File buildDir = project.getLayout().getBuildDirectory().get().getAsFile();
         ProjectLayout layout = project.getLayout();
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-reverse-output");
@@ -78,7 +78,7 @@ public class CatPluginTest {
 
     @Test
     public void fromTest() throws IOException {
-        File buildDir = project.getBuildDir();
+        File buildDir = project.getLayout().getBuildDirectory().get().getAsFile();
         ProjectLayout layout = project.getLayout();
         Directory projDir = layout.getProjectDirectory();
         File output = new File(buildDir, "testing-from-output");
@@ -98,7 +98,7 @@ public class CatPluginTest {
 
     @Test
     public void unorderedTest() throws IOException {
-        File buildDir = project.getBuildDir();
+        File buildDir = project.getLayout().getBuildDirectory().get().getAsFile();
         File output = new File(buildDir, "testing-unordered-output");
 
         task.getOutput().fileValue(output);
