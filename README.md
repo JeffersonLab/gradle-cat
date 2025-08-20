@@ -1,4 +1,4 @@
-# gradle-cat [![CI](https://github.com/JeffersonLab/gradle-cat/actions/workflows/ci.yml/badge.svg)](https://github.com/JeffersonLab/gradle-cat/actions/workflows/ci.yml) [![Maven Central](https://badgen.net/maven/v/maven-central/org.jlab/cat)](https://repo1.maven.org/maven2/org/jlab/cat/)
+# gradle-cat [![CI](https://github.com/JeffersonLab/gradle-cat/actions/workflows/ci.yaml/badge.svg)](https://github.com/JeffersonLab/gradle-cat/actions/workflows/ci.yaml) [![Maven Central](https://badgen.net/maven/v/maven-central/org.jlab/cat)](https://repo1.maven.org/maven2/org/jlab/cat/)
 A [Gradle](https://gradle.org/) file concatenation plugin.  This plugin is useful to combine / merge files such as web application JavaScript or CSS resources.
 
 ---
@@ -52,7 +52,7 @@ cat {
 **Note**: Extension doesn't wrap `RegularFile` API so, it's clumsy.
 
 ## Build
-This project is built with [Java 17](https://adoptium.net/) (compiled to Java 17 bytecode), and uses the [Gradle 7](https://gradle.org/) build tool to automatically download dependencies and build the project from source:
+This project is built with [Java 21](https://adoptium.net/) (compiled to Java 17 bytecode), and uses the [Gradle 9](https://gradle.org/) build tool to automatically download dependencies and build the project from source:
 
 ```
 git clone https://github.com/JeffersonLab/gradle-cat
@@ -63,12 +63,9 @@ gradlew build
 
 **Note for JLab On-Site Users**: Jefferson Lab has an intercepting [proxy](https://gist.github.com/slominskir/92c25a033db93a90184a5994e71d0b78)
 
-
 ## Release
-1. Bump the version number in build.gradle and commit and push to GitHub (using [Semantic Versioning](https://semver.org/)).   
-1. Create a new release on the GitHub [Releases](https://github.com/JeffersonLab/gradle-cat/releases) page corresponding to same version in build.gradle (Enumerate changes and link issues)
-1. Publish new artifact on maven central with:
-```
-gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
-```
-**Note**: There is a [GitHub action](https://github.com/JeffersonLab/gradle-cat/actions/workflows/maven-publish.yml) for this to happen automatically.  To run locally you'll need to configure credentials.  See: [Gradle Publish Notes](https://gist.github.com/slominskir/5fcd5cf84182bf1542c07cbca953904a)
+1. Bump the version number in the VERSION file and commit and push to GitHub (using [Semantic Versioning](https://semver.org/)).
+2. The [CD](https://github.com/JeffersonLab/gradle-cat/blob/main/.github/workflows/cd.yaml) GitHub Action should run automatically invoking:
+   - The [Create release](https://github.com/JeffersonLab/java-workflows/blob/main/.github/workflows/gh-release.yaml) GitHub Action to tag the source and create release notes summarizing any pull requests.   Edit the release notes to add any missing details.
+   - The [Publish artifact](https://github.com/JeffersonLab/java-workflows/blob/main/.github/workflows/maven-publish.yaml) GitHub Action to create a deployment artifact on maven central.
+   - The [Publish docs](https://github.com/JeffersonLab/java-workflows/blob/main/.github/workflows/gh-pages-publish.yaml) GitHub Action to create javadocs.
