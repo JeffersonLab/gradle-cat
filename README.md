@@ -73,3 +73,5 @@ gradlew build
    - The [Create release](https://github.com/JeffersonLab/java-workflows/blob/main/.github/workflows/gh-release.yaml) GitHub Action to tag the source and create release notes summarizing any pull requests.   Edit the release notes to add any missing details.
    - The [Publish artifact](https://github.com/JeffersonLab/java-workflows/blob/main/.github/workflows/maven-publish.yaml) GitHub Action to create a deployment artifact on maven central.
    - The [Publish docs](https://github.com/JeffersonLab/java-workflows/blob/main/.github/workflows/gh-pages-publish.yaml) GitHub Action to create javadocs.
+  
+**Note**: A Gradle plugin actually has two artifacts published for a single version.  The typical package as you'd expect, plus a special Gradle Marker package, which is just a POM file of extra metadata.  For example, for version 1.2.0 there is the [v1.2.0 standard package](https://repo1.maven.org/maven2/org/jlab/cat/1.2.0/) plus the [v1.2.0 metadata marker package](https://repo1.maven.org/maven2/org/jlab/cat/org.jlab.cat.gradle.plugin/1.2.0/).  Fortunately the publish plugin takes care of this for us. 
