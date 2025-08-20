@@ -2,7 +2,8 @@
 A [Gradle](https://gradle.org/) file concatenation plugin.  This plugin is useful to combine / merge files such as web application JavaScript or CSS resources.
 
 ---
- - [Install](https://github.com/JeffersonLab/gradle-cat#install)      
+ - [Install](https://github.com/JeffersonLab/gradle-cat#install)
+ - [API](https://github.com/JeffersonLab/gradle-cat#api)    
  - [Configure](https://github.com/JeffersonLab/gradle-cat#configure)
  - [Build](https://github.com/JeffersonLab/gradle-cat#build) 
  - [Release](https://github.com/JeffersonLab/gradle-cat#release)
@@ -26,6 +27,9 @@ plugins {
   id "org.jlab.cat" version "<version>"
 }
 ```
+
+## API
+- [javadocs](https://jeffersonlab.github.io/gradle-cat/)
 
 ## Configure
 Create a new task of type `org.jlab.cat.CatTask` and set the input files and output file.  For example (Groovy syntax shown):
