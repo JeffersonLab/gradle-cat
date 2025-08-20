@@ -1,6 +1,7 @@
 plugins {
     id "java-gradle-plugin"
     id "com.diffplug.spotless" version "7.2.1"
+    id "com.vanniktech.maven.publish" version "0.34.0"
 }
 
 description = 'Gradle file concatenation plugin'
@@ -34,6 +35,35 @@ test {
         events "passed", "skipped", "failed"
         exceptionFormat = "full"
         showStandardStreams = true
+    }
+}
+mavenPublishing {
+    publishToMavenCentral(true)
+    signAllPublications()
+    coordinates("org.jlab", "cat", version)
+
+    pom {
+        name = project.name
+        description = project.description
+        url = "https://github.com/JeffersonLab/gradle-cat/"
+        licenses {
+            license {
+                name = "The MIT License"
+                url = "https://github.com/JeffersonLab/gradle-cat/blob/master/LICENSE"
+            }
+        }
+        developers {
+            developer {
+                id = "slominskir"
+                name = "Ryan Slominski"
+                url = "https://github.com/slominskir/"
+            }
+        }
+        scm {
+            url = "https://github.com/JeffersonLab/gradle-cat"
+            connection = "scm:git:git://github.com/JeffersonLab/gradle-cat.git"
+            developerConnection = "scm:git:ssh://git@github.com/JeffersonLab/gradle-cat.git"
+        }
     }
 }
 spotless {
